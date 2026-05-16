@@ -45,6 +45,17 @@ uploaded_file = st.file_uploader(
 )
 
 def extract_transactions(pdf_file):
+    if "Date" in df.columns:
+
+    selected_date = st.selectbox(
+        "Filter By Date",
+        ["All"] + list(df["Date"].unique())
+    )
+
+    if selected_date != "All":
+        df = df[
+            df["Date"] == selected_date
+        ]
 
     transactions = []
 
