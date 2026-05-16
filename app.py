@@ -96,7 +96,14 @@ if search:
             na=False
         )
     ]
+limit = st.selectbox(
+    "Transactions Per Page",
+    [10, 25, 50, "All"]
+)
 
+if limit != "All":
+    df = df.head(limit)
+    
     st.dataframe(
         df,
         use_container_width=True,
