@@ -78,6 +78,19 @@ if uploaded_file:
     df = extract_transactions(uploaded_file)
 
     st.subheader("Transactions")
+    search = st.text_input(
+    "Search Transactions"
+)
+
+if search:
+
+    df = df[
+        df["Transaction"].str.contains(
+            search,
+            case=False,
+            na=False
+        )
+    ]
 
     st.dataframe(
         df,
