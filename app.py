@@ -65,9 +65,14 @@ def extract_transactions(pdf_file):
 
                 if re.search(pattern, line):
 
-                    transactions.append({
-                        "Transaction": line
-                    })
+                    parts = line.split(" ")
+
+date = parts[0]
+
+transactions.append({
+    "Date": date,
+    "Transaction": line
+})
 
     return pd.DataFrame(transactions)
 
