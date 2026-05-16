@@ -67,12 +67,12 @@ def extract_transactions(pdf_file):
 
                     parts = line.split(" ")
 
-date = parts[0]
+                    date = parts[0]
 
-transactions.append({
-    "Date": date,
-    "Transaction": line
-})
+                    transactions.append({
+                        "Date": date,
+                        "Transaction": line
+                    })
 
     return pd.DataFrame(transactions)
 
