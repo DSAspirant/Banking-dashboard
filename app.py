@@ -8,9 +8,9 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title(" Banking Dashboard")
+st.title("🏦 Banking Dashboard")
 
-st.sidebar.title("HDFC  Banking")
+st.sidebar.title("🏦 HDFC Banking")
 
 page = st.sidebar.selectbox(
     "Select Option",
@@ -45,20 +45,7 @@ uploaded_file = st.file_uploader(
 )
 
 def extract_transactions(pdf_file):
-    if "Date" in df.columns:
-        selected_date = st.selectbox(
-        "Filter By Date",
-        ["All"] + list(df["Date"].unique())
-    )
 
-    if selected_date != "All":
-        df = df[
-            df["Date"] == selected_date
-        ]
-
-        
-
-    
     transactions = []
 
     with pdfplumber.open(pdf_file) as pdf:
@@ -95,28 +82,44 @@ if uploaded_file:
 
     df = extract_transactions(uploaded_file)
 
-    st.subheader("Transactions")
-    search = st.text_input(
-    "Search Transactions"
-)
+    if "Date" in df.columns:
 
-if search:
-
-    df = df[
-        df["Transaction"].str.contains(
-            search,
-            case=False,
-            na=False
+        selected_date = st.selectbox(
+            "Filter By Date",
+            ["All"] + list(df["Date"].unique())
         )
-    ]
-limit = st.selectbox(
-    "Transactions Per Page",
-    [10, 25, 50, "All"]
-)
 
-if limit != "All":
-    df = df.head(limit)
-    
+        if selected_date != "All":
+
+            df = df[
+                df["Date"] == selected_date
+            ]
+
+    st.subheader("Transactions")
+
+    search = st.text_input(
+        "Search Transactions"
+    )
+
+    if search:
+
+        df = df[
+            df["Transaction"].str.contains(
+                search,
+                case=False,
+                na=False
+            )
+        ]
+
+    limit = st.selectbox(
+        "Transactions Per Page",
+        [10, 25, 50, "All"]
+    )
+
+    if limit != "All":
+
+        df = df.head(limit)
+
     st.dataframe(
         df,
         use_container_width=True,
@@ -129,4 +132,5 @@ if limit != "All":
     )
 
 else:
+
     st.info("Upload your bank statement PDF")
